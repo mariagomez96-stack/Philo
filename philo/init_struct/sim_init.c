@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:11:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 08:37:32 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/12 11:57:06 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_init_mutex(t_data *env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < env->philo_count)
@@ -35,7 +35,8 @@ int	ft_init_philo_sim(t_data *env)
 	env->philos = (t_philo *)malloc(sizeof(t_philo) * env->philo_count);
 	if (!env->philos)
 		return (0);
-	env->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * env->philo_count);
+	env->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) \
+	* env->philo_count);
 	if (!env->forks)
 		return (free(env->philos), 0);
 	if (ft_init_mutex(env))

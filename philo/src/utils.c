@@ -6,18 +6,11 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:58:10 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 09:30:14 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:00:35 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-static int	ft_isdigit(int c)
-{
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
-}
 
 int	ft_atoi(const char *nptr)
 {
@@ -34,9 +27,9 @@ int	ft_atoi(const char *nptr)
 		neg = 1;
 	if (nptr[i] == '-' || nptr[i] == '+')
 		i++;
-	while (nptr[i] != '\0' && ft_isdigit(nptr[i]))
+	while (nptr[i] != '\0' && nptr[i] >= 48 && nptr[i] <= 57)
 	{
-		if (value > 922337203685477580 || (value == 922337203685477580
+		if (value >= 922337203685477580 || (value == 922337203685477580
 				&& ((!neg && nptr[i] - '0' > 7) || (neg && nptr[i] - '0' > 8))))
 			return (-1 * !neg);
 		else
@@ -46,6 +39,7 @@ int	ft_atoi(const char *nptr)
 		value = -value;
 	return (value);
 }
+
 static int	ft_strlen(char *str)
 {
 	int	i;

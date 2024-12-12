@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 09:08:19 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 09:26:47 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/12 12:01:08 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_init_env(t_data *env, int argc, char *argv[])
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
-		env->eat_count_max= ft_atoi(argv[5]);
+		env->eat_count_max = ft_atoi(argv[5]);
 	else
 		env->eat_count_max = 0;
 }
@@ -42,7 +42,7 @@ int	ft_init_philos(t_data *env)
 		i++;
 	}
 	if (i != env->philo_count)
-	{		
+	{
 		while (i >= 0)
 		{
 			free(env->philos[i].status);
@@ -52,4 +52,3 @@ int	ft_init_philos(t_data *env)
 	}
 	return (0);
 }
-
