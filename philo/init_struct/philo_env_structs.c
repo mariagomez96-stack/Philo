@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 09:08:19 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 12:01:08 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 10:09:35 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_init_env(t_data *env, int argc, char *argv[])
 	env->time_to_die = ft_atoi(argv[2]);
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
+	env->time_to_think = ft_atoi(argv[4]);
 	if (argc == 6)
 		env->eat_count_max = ft_atoi(argv[5]);
 	else

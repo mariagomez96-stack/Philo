@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 11:12:03 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:27:59 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,14 @@ void	ft_sleep(unsigned long time, t_data *data)
 	{
 		if (ft_get_time() - start >= time)
 			break ;
-		usleep(data->philo_count * 2);
+		usleep(data->philo_count * 3);
 	}
 }
 
-unsigned long	ft_get_time(void)
+void	ft_think(unsigned long time, t_data *data)
 {
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * (unsigned long)1000) + (time.tv_usec / 1000));
+	ft_sleep(time, data);
 }
-
-/* FT_CHECK_STATUS:
-
-Con esta función imprimimos un mensaje en consola
-con un formato específico y un timestamp (Tiempo relativo)
-El filósofo y un mensaje adicional.
-Gestiona el bloqueo o desbloqueo de un mutex para evitar que
-varios hilos escriban simultáneamente
-*/
 
 void	ft_check_status(char *mesg, t_philo *philo, int lock)
 {
@@ -61,8 +49,8 @@ void	ft_dead(t_data *data, t_philo *philo)
 
 	while (!data->max_ate)
 	{
-		i = -1;
-		while (++i < data->philo_count && !data->stopping)
+		i = 0;
+		while (i < data->philo_count && !data->stopping)
 		{
 			pthread_mutex_lock(&data->mealtime);
 			if ((int)(ft_get_time() - philo[i].last_eat) >= data->time_to_die)
@@ -71,6 +59,7 @@ void	ft_dead(t_data *data, t_philo *philo)
 				data->stopping = 1;
 			}
 			pthread_mutex_unlock(&data->mealtime);
+			i++;
 		}
 		if (data->stopping)
 			break ;

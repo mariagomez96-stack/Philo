@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:41:20 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 09:03:03 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:49:37 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ static void	*ft_routine(void *args)
 	while (!data->stopping && !data->max_ate)
 	{
 		ft_eat(philo);
+		ft_sleep(data->time_to_sleep / 2, data);
 		ft_check_status(SLEEP, philo, UNLOCK);
-		ft_sleep(data->time_to_sleep, data);
+		ft_think(data->time_to_think / 2, data);
 		ft_check_status(THINK, philo, UNLOCK);
 	}
 	return (NULL);
@@ -39,20 +40,15 @@ static void	ft_exit(t_data *data)
 		pthread_detach(data->philos[0].thread_id);
 	else
 	{
-		i = -1;
-		while (++i < data->philo_count)
+		i = 0;
+		while (i < data->philo_count)
+		{
 			pthread_join(data->philos[i].thread_id, NULL);
+			i++;
+		}
 	}
-	i = -1;
-	while (++i < data->philo_count)
-		pthread_mutex_destroy(&data->forks[i]);
-	pthread_mutex_destroy(&data->mealtime);
-	pthread_mutex_destroy(&data->print);
-	i = -1;
-	while (++i < data->philo_count)
-		free(data->philos[i].status);
-	free(data->philos);
-	free(data->forks);
+	ft_destroy_mutex(data);
+	ft_free_philo(data);
 }
 
 static int	ft_create_thread(t_data *data)

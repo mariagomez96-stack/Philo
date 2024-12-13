@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 08:57:52 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:41:59 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_data
 	int				time_to_die;   // Max time that a philo can be without eating (To die)
 	int				time_to_eat;   // Time that a philo takes to eat
 	int				time_to_sleep; // Time that a philo takes to sleep
+	int				time_to_think;
 	int				eat_count_max;	   // Total of meals that philos has eaten
 	int				max_ate;		//Number of meals a philo must eat to finish sim
 	int				stopping;      // Flag to stop the simulation
@@ -89,12 +90,13 @@ int				ft_init_mutex(t_data *env);
 int				ft_init_philo_sim(t_data *env);
 
 // FREE
-void			ft_free_philo(int i, t_data *env);
+void			ft_free_philo(t_data *data);
 
 // UTILS
 int				ft_atoi(const char *str);
 unsigned int	ft_count_digits(int n);
 char			*ft_itoa(int n);
+void			ft_destroy_mutex(t_data *data);
 
 // CHECKER
 int				ft_is_int(char *str);
@@ -106,6 +108,7 @@ unsigned long	ft_get_time(void);
 void			ft_dead(t_data *data, t_philo *philo);
 void			ft_check_status(char *mesg, t_philo *philo, int lock);
 void			ft_eat(t_philo *philo);
+void			ft_think(unsigned long time, t_data *data);
 
 // THREATS
 int				ft_thread(t_data *data);

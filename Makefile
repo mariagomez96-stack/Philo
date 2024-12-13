@@ -56,10 +56,10 @@ LFLAGS				= -lpthread
 #    -------                                                                   #
 
 SRC 				= ${SRC_DIR}/checker.c \
-                      	${SRC_DIR}/free.c \
 					  	${SRC_DIR}/manage_threats.c \
 					  	${SRC_DIR}/utils_philos.c \
-					  	${SRC_DIR}/utils.c
+					  	${SRC_DIR}/utils.c \
+						${SRC_DIR}/utils_2.c
 
 
 INT					= ${INIT_DIR}/philo_env_structs.c \
