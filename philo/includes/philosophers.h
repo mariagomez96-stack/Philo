@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 11:41:59 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 11:54:23 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,34 @@
 
 typedef struct s_philo
 {
-	int				id;            // Position of the philo at table (ID)
-	int				left_fork;	   // Position of the left fork	
-	int				right_fork;    // Position of the right fork
-	int				eat_count;     // Number of times the philo has eaten
-	unsigned long	last_eat;      // Time of the last meal
-	char			*status;       // Represents the position of the philo in char
-	pthread_t		thread_id;	   // ID of the thread (hilo)
-	struct s_data	*data;         // Pointer to the data structure
+	int				id;				// Position of the philo at table (ID)
+	int				left_fork;		// Position of the left fork	
+	int				right_fork;		// Position of the right fork
+	int				eat_count;		// Number of times the philo has eaten
+	unsigned long	last_eat;		// Time of the last meal
+	char			*status;		// ID char
+	pthread_t		thread_id;		// ID of the thread (hilo)
+	struct s_data	*data;			// Pointer to the data structure
 }	t_philo;
 
 /* t_data      : Globar environment of the program. It contains
-				 the params, share resources (mutexes) and a reference to philos*/
+				 the params, share resources (mutexes) 
+				 and a reference to philos*/
 
 typedef struct s_data
 {
-	int				philo_count;   // Number of philosophers
-	int				time_to_die;   // Max time that a philo can be without eating (To die)
-	int				time_to_eat;   // Time that a philo takes to eat
-	int				time_to_sleep; // Time that a philo takes to sleep
+	int				philo_count;	// Number of philosophers
+	int				time_to_die;	// Max time without eating (To die)
+	int				time_to_eat;	// Time that a philo takes to eat
+	int				time_to_sleep;	// Time that a philo takes to sleep
 	int				time_to_think;
-	int				eat_count_max;	   // Total of meals that philos has eaten
-	int				max_ate;		//Number of meals a philo must eat to finish sim
-	int				stopping;      // Flag to stop the simulation
-	unsigned long	start;          // Time when the simulation starts
+	int				eat_count_max;	// Total of meals that philos has eaten
+	int				max_ate;		// Max eats of each philo
+	int				stopping;		// Flag to stop the simulation
+	unsigned long	start;			// Time when the simulation starts
 	pthread_mutex_t	*forks;			// Array of mutexes to represent the forks
 	pthread_mutex_t	print;			// Mutex to print the status of the philos
-	pthread_mutex_t mealtime;		// Mutex to control the time of the meals
+	pthread_mutex_t	mealtime;		// Mutex to control the time of the meals
 	t_philo			*philos;		// Array of philos
 }	t_data;
 
