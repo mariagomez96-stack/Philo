@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:41:20 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 12:40:18 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 09:03:03 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	ft_exit(t_data *data)
 	free(data->forks);
 }
 
-int	ft_create_thread(t_data *data)
+static int	ft_create_thread(t_data *data)
 {
 	int	i;
 
@@ -69,6 +69,13 @@ int	ft_create_thread(t_data *data)
 			return (0);
 		i++;
 	}
+	return (1);
+}
+
+int	ft_thread(t_data *data)
+{
+	if (!ft_create_thread(data))
+		return (0);
 	ft_dead(data, data->philos);
 	pthread_mutex_unlock(&data->print);
 	ft_exit(data);

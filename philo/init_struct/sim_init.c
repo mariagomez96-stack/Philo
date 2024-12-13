@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:11:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 19:23:50 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:57:07 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	ft_init_fork(t_data *env)
 	return (0);
 }
 
-static int	ft_init_mealtime_and_print(t_data *env)
+static int	ft_init_mealtime_and_print_mutex(t_data *env)
 {
 	if (pthread_mutex_init(&(env->mealtime), NULL))
 		return (1);
@@ -44,7 +44,7 @@ int	ft_init_philo_sim(t_data *env)
 	* env->philo_count);
 	if (!env->forks)
 		return (free(env->philos), 0);
-	if (ft_init_fork(env) || ft_init_mealtime_and_print(env) \
+	if (ft_init_fork(env) || ft_init_mealtime_and_print_mutex(env) \
 	|| ft_init_philos(env))
 	{
 		free(env->philos);

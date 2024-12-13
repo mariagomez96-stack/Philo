@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 12:40:21 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:57:52 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ void			ft_check_status(char *mesg, t_philo *philo, int lock);
 void			ft_eat(t_philo *philo);
 
 // THREATS
-int				ft_create_thread(t_data *data);
+int				ft_thread(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:25:12 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 09:12:11 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/13 09:03:15 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 		return (printf("CHAO\n\n"), 1);
 	if (!ft_init_philo_sim(&env))
 		return (printf("Error: Memory allocation failed\n"), 2);
-	if (!ft_create_thread(&env))
+	if (!ft_thread(&env))
 		return (printf("Error: Thread creation failed\n"), 2);
 	return (0);
 }
