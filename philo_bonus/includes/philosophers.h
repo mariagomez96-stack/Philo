@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 11:54:23 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:37:23 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/wait.h>   // Para waitpid()
+# include <fcntl.h>      // Para O_CREAT y O_EXCL
+# include <semaphore.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <signal.h> // Para usar señales como SIGKILL
+
 # define THINK "is thinking"
 # define INTMIN -2147483648
 # define INTMAX 2147483647
@@ -30,88 +35,74 @@
 # define DEAD "is dead"
 # define EAT "is eating"
 
+# define USAGE_ERR			"❗Arguments: Usage: ./philo <Nbr philosophers> \
+<time to die> <time to eat> <time to sleep> [Nbr times each philosopher must \
+eat]"
+# define NUM_ARGV_ERR		"❗1️⃣ Incorrect number of arguments, expected min 4\
+ o max 5."
+# define NO_INT_ARGV_ERR	"❗Argument is not integer value"
+# define INT_NEG_ARGV_ERR	"❗Argument with negativ integer value. Forbidden."
+# define PARAMS_ERR			"❗Incorrect parameteres."
+# define ARG				"Argument "
+# define INVALID			" is not valid."
+# define NEGATIVE			" negative value."
+# define VALUES_INVALID		"Values of some parameter are invalid."
+# define INIT_ERR			"Initialization error."
+# define THREADS_ERR		"Threads error."
+# define BYE				"Fix the argument, my friend."
+
 /* t_philo    : Structure of caracteristics and
 				state of each philo
 */
 
 typedef struct s_philo
 {
-	int				id;				// Position of the philo at table (ID)
-	int				left_fork;		// Position of the left fork	
-	int				right_fork;		// Position of the right fork
-	int				eat_count;		// Number of times the philo has eaten
-	unsigned long	last_eat;		// Time of the last meal
-	char			*status;		// ID char
-	pthread_t		thread_id;		// ID of the thread (hilo)
-	struct s_data	*data;			// Pointer to the data structure
-}	t_philo;
+	int				pos;
+	int				times_eaten;
+	// int				right_fork;
+	// int				left_fork;
+	unsigned long	last_meal;
+	char			*pos_char;
+	struct s_envp	*envp;
+}					t_philo;
 
-/* t_data      : Globar environment of the program. It contains
-				 the params, share resources (mutexes) 
-				 and a reference to philos*/
-
-typedef struct s_data
+typedef struct s_envp
 {
-	int				philo_count;	// Number of philosophers
-	int				time_to_die;	// Max time without eating (To die)
-	int				time_to_eat;	// Time that a philo takes to eat
-	int				time_to_sleep;	// Time that a philo takes to sleep
-	int				time_to_think;
-	int				eat_count_max;	// Total of meals that philos has eaten
-	int				max_ate;		// Max eats of each philo
-	int				stopping;		// Flag to stop the simulation
-	unsigned long	start;			// Time when the simulation starts
-	pthread_mutex_t	*forks;			// Array of mutexes to represent the forks
-	pthread_mutex_t	print;			// Mutex to print the status of the philos
-	pthread_mutex_t	mealtime;		// Mutex to control the time of the meals
-	t_philo			*philos;		// Array of philos
-}	t_data;
-
+	int				nbr_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				philo_eat_limit;
+	int				eat_max;
+	int				stopping_rule;
+	unsigned long	init_time;
+	t_philo			*philos;
+	sem_t			*forks;
+	sem_t			*mealtime;
+	sem_t			writing;
+}					t_envp;
 // INITIALIZATION STRUCTURES
 
-void			ft_init_env(t_data *env, int argc, char *argv[]);
-int				ft_init_philos(t_data *env);
+int	ft_init_semaphores(t_envp *envp);
+int	ft_init_philo(t_envp *envp);
+int	ft_init_sim(t_envp *envp);
+void	ft_init_struct(t_envp *envp, int argc, char *argv[]);
 
-// INITIALIZATION MUTEX
 
-/* ft_init_mutex:     Initialization of mutex for params which needs.
-					** Pthreads Library: pthread_mutex_init **
-					- forks
-					- print
-					- mealtime 
-*/
-int				ft_init_mutex(t_data *env);
 
-/* ft_init_philo_sim:  Initialization of resources for philos simulation
-					- env->philos: Array of philos
-					- env->forks: Array of mutexes
-					- Init_mutex
-					- Init philo
-*/
-int				ft_init_philo_sim(t_data *env);
+void	ft_check_eat(t_philo *philo);
+void	ft_check_stamp(char *msg, t_philo *philo, int unlock);
+void	ft_check_dead(t_envp *envp, t_philo *philo);
+void	ft_destroy_semaphores_and_free(t_envp *envp);
+int	ft_check_params(t_envp *envp, int argc, char *argv[]);
 
-// FREE
-void			ft_free_philo(t_data *data);
-
-// UTILS
-int				ft_atoi(const char *str);
-unsigned int	ft_count_digits(int n);
-char			*ft_itoa(int n);
-void			ft_destroy_mutex(t_data *data);
-
-// CHECKER
-int				ft_is_int(char *str);
-int				ft_check_args(t_data *env, int argc, char **argv);
-
-// UTILS PHILOS
-void			ft_sleep(unsigned long time, t_data *data);
+void	ft_manage_err_simple(const char *err);
+void	ft_manage_err(const char *err);
+int	ft_isinteger(char *nbr);
+int	ft_is_int(char *nptr);
+void	ft_sleep(unsigned long total_time, t_envp *envp);
 unsigned long	ft_get_time(void);
-void			ft_dead(t_data *data, t_philo *philo);
-void			ft_check_status(char *mesg, t_philo *philo, int lock);
-void			ft_eat(t_philo *philo);
-void			ft_think(unsigned long time, t_data *data);
-
-// THREATS
-int				ft_thread(t_data *data);
+int	ft_philo_atoi(const char *nptr);
+char	*ft_philo_itoa(int n);
 
 #endif

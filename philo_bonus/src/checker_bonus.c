@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.c                                          :+:      :+:    :+:   */
+/*   checker_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:55:03 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 11:58:29 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:29:25 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
+
+void	ft_manage_err(const char *err)
+{
+	printf("Error: ""%s\n", err);
+	exit (EXIT_FAILURE);
+}
+
+void	ft_manage_err_simple(const char *err)
+{
+	printf("Error: ""%s\n", err);
+}
 
 int	ft_is_int(char *nptr)
 {
@@ -38,22 +49,32 @@ int	ft_is_int(char *nptr)
 	return (1);
 }
 
-int	ft_check_args(t_data *env, int argc, char **argv)
+int	ft_check_params(t_envp *envp, int argc, char *argv[])
 {
 	int	i;
 
 	i = 1;
 	while (i < argc)
 	{
-		if (!ft_is_int(argv[i]))
-			return (printf("Error: Argument %i is not an integer\n", i), 0);
-		if (ft_atoi(argv[i]) < 0)
-			return (printf("Error: Argument %i is negative\n", i), 0);
+		if (!ft_isinteger(argv[i]))
+		{
+			printf("Argument:%i is not an integer" "\n", i);
+			return (ft_manage_err_simple(NO_INT_ARGV_ERR), EXIT_FAILURE);
+		}
+		if (ft_philo_atoi(argv[i]) < 0)
+		{
+			printf("%i" "\n", i);
+			return (ft_manage_err_simple(INT_NEG_ARGV_ERR), EXIT_FAILURE);
+		}
 		i++;
 	}
-	ft_init_env(env, argc, argv);
-	if (env->philo_count < 1 || env->time_to_die < 0 || env->time_to_eat < 0
-		|| env->time_to_sleep < 0 || env->eat_count_max < 0)
-		return (printf("Error: Arguments must be greater than 0\n"), 0);
-	return (1);
+	ft_init_struct(envp, argc, argv);
+	if (envp->philo_eat_limit < 0 || envp->time_to_die < 0 || envp->\
+	time_to_eat < 0 || envp->time_to_sleep < 0 || envp->nbr_philos < 1)
+	{
+		printf("Arguments invalid\n");
+		return (ft_manage_err_simple(PARAMS_ERR), EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
+

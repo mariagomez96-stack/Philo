@@ -1,6 +1,6 @@
 # ══ Names ═══════════════════════════════════════════════════════════════════ #
 
-NAME 				= philo
+NAME 				= philo_bonus
 EXEC_PATH			= $(NAME)
 
 # ══ Colors ══════════════════════════════════════════════════════════════════ #
@@ -50,16 +50,16 @@ IFLAGS              = -I${INCLUDES_DIR}
 LFLAGS              = -lpthread
 
 # ══ Fuentes y objetos ══════════════════════════════════════════════════════ #
-SRC                 = ${SRC_DIR}/checker.c \
-                      ${SRC_DIR}/manage_threads.c \
-                      ${SRC_DIR}/utils_philos.c \
-                      ${SRC_DIR}/utils.c \
-                      ${SRC_DIR}/utils_2.c
+SRC                 = ${SRC_DIR}/checker_bonus.c \
+                      ${SRC_DIR}/manage_threads_bonus.c \
+                      ${SRC_DIR}/utils_philos_bonus.c \
+                      ${SRC_DIR}/utils_bonus.c \
+                      ${SRC_DIR}/utils_2_bonus.c
 
-INT                 = ${INIT_DIR}/philo_env_structs.c \
-                      ${INIT_DIR}/sim_init.c
+INT                 = ${INIT_DIR}/philo_env_structs_bonus.c \
+                      ${INIT_DIR}/sim_init_bonus.c
 
-SIM                 = ${SIM_DIR}/philo.c
+SIM                 = ${SIM_DIR}/philo_bonus.c
                      
 OBJ_SRC             = $(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRC})
 OBJ_INT             = $(patsubst ${INIT_DIR}/%.c, ${OBJ_DIR}/%.o, ${INT})

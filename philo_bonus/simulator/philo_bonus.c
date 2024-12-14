@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   philo_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:25:12 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 09:03:15 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:40:10 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char *argv[])
 {
-	t_data	env;
+	t_envp	envp;
 
-	env.max_ate = 0;
-	env.stopping = 0;
+	envp.eat_max = 0;
+	envp.stopping_rule = 0;
 	if (argc < 5 || argc > 6)
-		return (printf("Error: Wrong number of arguments\n"), 2);
-	if (!ft_check_args(&env, argc, argv))
-		return (printf("CHAO\n\n"), 1);
-	if (!ft_init_philo_sim(&env))
-		return (printf("Error: Memory allocation failed\n"), 2);
-	if (!ft_thread(&env))
-		return (printf("Error: Thread creation failed\n"), 2);
-	return (0);
+	{
+		ft_manage_err_simple(NUM_ARGV_ERR);
+		return (ft_manage_err_simple(USAGE_ERR), EXIT_FAILURE);
+	}
+	if (ft_check_params(&envp, argc, argv))
+		return (ft_manage_err_simple(BYE), EXIT_FAILURE);
+	if (ft_init_sim(&envp))
+		return (ft_manage_err_simple(INIT_ERR), EXIT_FAILURE);
+	if (ft_create_threads_and_monitor(&envp))
+		return (ft_manage_err_simple(THREADS_ERR), EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
+

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:58:10 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 12:00:35 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/14 11:33:45 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-int	ft_atoi(const char *nptr)
+int	ft_philo_atoi(const char *nptr)
 {
 	int		i;
 	int		neg;
@@ -83,7 +83,7 @@ static int	ft_getlen(int n)
 	return (i);
 }
 
-char	*ft_itoa(int n)
+char	*ft_philo_itoa(int n)
 {
 	char			*ret;
 	int				i;
