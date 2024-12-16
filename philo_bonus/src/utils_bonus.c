@@ -6,107 +6,70 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:58:10 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/14 11:33:45 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/16 13:44:48 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philosophers.h"
+#include "../includes/philosophers_bonus.h"
 
-int	ft_philo_atoi(const char *nptr)
+
+int	ft_msg_err(char *str, int exit)
 {
-	int		i;
-	int		neg;
-	long	value;
-
-	i = 0;
-	value = 0;
-	neg = 0;
-	while ((nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13)))
-		i++;
-	if (nptr[i] == '-')
-		neg = 1;
-	if (nptr[i] == '-' || nptr[i] == '+')
-		i++;
-	while (nptr[i] != '\0' && nptr[i] >= 48 && nptr[i] <= 57)
-	{
-		if (value >= 922337203685477580 || (value == 922337203685477580
-				&& ((!neg && nptr[i] - '0' > 7) || (neg && nptr[i] - '0' > 8))))
-			return (-1 * !neg);
-		else
-			value = (value * 10) + nptr[i++] - '0';
-	}
-	if (neg)
-		value = -value;
-	return (value);
+	printf("%s\n", str);
+	return (exit);
 }
 
-static int	ft_strlen(char *str)
+void	ft_free_philos(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-static void	ft_rev_str(char *str)
-{
-	int		start;
-	int		end;
-	char	temp;
-
-	start = 0;
-	end = ft_strlen(str) - 1;
-	while (start < end)
-	{
-		temp = str[start];
-		str[start] = str[end];
-		str[end] = temp;
-		start++;
-		end--;
-	}
-}
-
-static int	ft_getlen(int n)
-{
-	int	i;
-
-	i = 0;
-	if (n <= 0)
-		i++;
-	while (n != 0)
-	{
-		n /= 10;
-		i++;
-	}
-	return (i);
-}
-
-char	*ft_philo_itoa(int n)
-{
-	char			*ret;
-	int				i;
-	unsigned int	tmp_nbr;
-
-	i = 0;
-	ret = malloc(sizeof(*ret) * (ft_getlen(n) + 1));
-	if (!ret)
+	unsigned int	i;
+	if (!data)
 		return (NULL);
-	if (n < 0)
-		tmp_nbr = -1 * n;
-	else
-		tmp_nbr = n;
-	while (tmp_nbr != 0)
+	if (data->philos)
 	{
-		ret[i++] = (tmp_nbr % 10) + '0';
-		tmp_nbr /= 10;
+		i = 0;
+		while (i < data->philo_count)
+		{
+			if (data->philos[i]->sem_meal_name)
+				free(data->philos[i]->sem_meal_name);
+			free(data->philos[i]);
+			i++;
+		}
+		free(data->philos);
 	}
-	if (n == 0)
-		ret[i++] = '0';
-	if (n < 0)
-		ret[i++] = '-';
-	ret[i] = '\0';
-	ft_rev_str(ret);
-	return (ret);
+	if (data->pids)
+		free(data->pids);
+	free(data);
+	return (NULL);
+}
+
+int	ft_free_data(char *str, t_data *data)
+{
+	if (data)
+		ft_free_philos(data);
+	return(ft_msg_err(str, 1));
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	int	i;
+	int	j;
+
+	// Encuentra el final de la cadena 'dest'
+	i = 0;
+	while (dest[i] != '\0')
+		i++;
+
+	// Copia la cadena 'src' al final de 'dest'
+	j = 0;
+	while (src[j] != '\0')
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+
+	// Asegura que la cadena resultante esté terminada con '\0'
+	dest[i] = '\0';
+
+	return (dest);
 }
