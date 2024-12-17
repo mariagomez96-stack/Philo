@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:08:36 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/17 13:37:48 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/17 13:50:49 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	ft_init_env(int argc, char **argv, t_data *env)
 	env->eat_counter= -1;
 	if (argc == 6)
 	{	
-		env->eat_counter = ft_atoi(argv[5]);
+		env->eat_counter = 0;
 		env->current_eat = 0;
-		env->max_eat = env->eat_counter* env->philo_count;
+		env->max_eat = ft_atoi(argv[5]);
 	}
 	return (0);
 }

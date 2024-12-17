@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/17 13:39:16 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:09:40 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_check_death(void *arg)
 		}
 		sem_post(philo->data->death);
 		sem_wait(philo->data->death);
-		if ((philo->data->current_eat >= philo->data->max_eat))
+		if (philo->data->current_eat != -1 && philo->eat_count >= philo->data->max_eat)
 		{
 			ft_print_message(DONE, philo);
 			sem_post(philo->data->stop);
@@ -39,6 +39,7 @@ void	*ft_check_death(void *arg)
 	return (NULL);
 }
 
+
 void	ft_take_fork(t_philo *philo)
 {
 	sem_wait(philo->data->forks);
@@ -47,7 +48,7 @@ void	ft_take_fork(t_philo *philo)
 	ft_print_message("Has taken a fork", philo);
 }
 
-void	ft_eat(t_philo *philo)
+/*void	ft_eat(t_philo *philo)
 {
 	ft_print_message(EAT, philo);
 	if (philo->data->eat_counter != -1)
@@ -58,7 +59,38 @@ void	ft_eat(t_philo *philo)
 		+ (unsigned int)philo->data->time_to_die;
 	sem_post(philo->data->forks);
 	sem_post(philo->data->forks);
+}*/
+
+void	ft_eat(t_philo *philo)
+{
+	// Tomar los tenedores
+	sem_wait(philo->data->forks); // Tomar primer tenedor
+	ft_print_message(TAKEN_FORK, philo);
+	sem_wait(philo->data->forks); // Tomar segundo tenedor
+	ft_print_message(TAKEN_FORK, philo);
+
+	// Actualizar el estado del filósofo a "EAT"
+	sem_wait(philo->data->death); // Proteger acceso a las variables críticas
+	ft_print_message(EAT, philo);
+
+	philo->last_meal = ft_get_time(); // Registrar tiempo de última comida
+	philo->next_meal = philo->last_meal + philo->data->time_to_die;
+
+	philo->eat_count++; // Incrementar el contador individual de comidas
+	printf("Filosofo: %d, Comidas: %d\n", philo->id, philo->eat_count);
+	if (philo->data->eat_counter != -1 && philo->eat_count >= philo->data->eat_counter)
+		philo->data->current_eat++; // Actualizar contador global
+
+	sem_post(philo->data->death); // Desbloquear acceso a las variables críticas
+
+	// Simular el tiempo de comer
+	usleep(philo->data->time_to_eat * 1000);
+
+	// Devolver los tenedores
+	sem_post(philo->data->forks); // Liberar primer tenedor
+	sem_post(philo->data->forks); // Liberar segundo tenedor
 }
+
 
 
 void	ft_sleep(t_philo *philo)
@@ -76,9 +108,9 @@ void	ft_routine(t_philo *philo)
 	pthread_detach(death);
 	while (1)
 	{
-		ft_take_fork(philo);
+		//ft_take_fork(philo);
 		ft_eat(philo);
 		ft_sleep(philo);
-		ft_print_message(THINK, philo);
+		//ft_print_message(THINK, philo);
 	}
 }
