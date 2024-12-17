@@ -42,7 +42,7 @@ INIT_DIR            = ./init_struct
 SIM_DIR             = ./simulator
 OBJ_DIR             = ./obj
 INCLUDES_DIR        = ./includes
-EXEC_PATH           = ./philo # Nombre del ejecutable
+EXEC_PATH           = ./philo_bonus # Nombre del ejecutable
 
 # ══ Flags ══════════════════════════════════════════════════════════════════ #
 CFLAGS              = -Wall -Werror -Wextra
@@ -51,15 +51,13 @@ LFLAGS              = -lpthread
 
 # ══ Fuentes y objetos ══════════════════════════════════════════════════════ #
 SRC                 = ${SRC_DIR}/checker_bonus.c \
-                      ${SRC_DIR}/manage_threads_bonus.c \
-                      ${SRC_DIR}/utils_philos_bonus.c \
-                      ${SRC_DIR}/utils_bonus.c \
-                      ${SRC_DIR}/utils_2_bonus.c
+						${SRC_DIR}/utils_bonus.c \
+						${SRC_DIR}/manage_philos_bonus.c 
 
-INT                 = ${INIT_DIR}/philo_env_structs_bonus.c \
-                      ${INIT_DIR}/sim_init_bonus.c
+INT                 = ${INIT_DIR}/init_struct_bonus.c \
 
-SIM                 = ${SIM_DIR}/philo_bonus.c
+SIM                 = ${SIM_DIR}/philo_bonus.c \
+						${SIM_DIR}/init_simulation_bonus.c
                      
 OBJ_SRC             = $(patsubst ${SRC_DIR}/%.c, ${OBJ_DIR}/%.o, ${SRC})
 OBJ_INT             = $(patsubst ${INIT_DIR}/%.c, ${OBJ_DIR}/%.o, ${INT})
