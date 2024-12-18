@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 13:30:49 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:34:53 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,6 @@ void	ft_eat(t_philo *philo)
 	sem_post(philo->data->forks);
 }
 
-
-
 void	ft_sleep(t_philo *philo)
 {
 	ft_print_message(SLEEP, philo);
@@ -84,7 +82,6 @@ void	ft_routine(t_philo *philo)
 	pthread_detach(death);
 	while (1)
 	{
-		//ft_take_fork(philo);
 		ft_eat(philo);
 		ft_sleep(philo);
 		ft_print_message(THINK, philo);

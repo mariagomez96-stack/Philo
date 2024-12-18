@@ -36,20 +36,20 @@ MCL 				= make clean -C
 MFCL 				= make fclean -C
 MK_					= && make
 
-# ══ Directorios ════════════════════════════════════════════════════════════ #
+# ══ Directories ════════════════════════════════════════════════════════════ #
 SRC_DIR             = ./src
 INIT_DIR            = ./init_struct
 SIM_DIR             = ./simulator
 OBJ_DIR             = ./obj
 INCLUDES_DIR        = ./includes
-EXEC_PATH           = ./philo_bonus # Nombre del ejecutable
+EXEC_PATH           = philo_bonus
 
 # ══ Flags ══════════════════════════════════════════════════════════════════ #
 CFLAGS              = -Wall -Werror -Wextra
 IFLAGS              = -I${INCLUDES_DIR}
 LFLAGS              = -lpthread
 
-# ══ Fuentes y objetos ══════════════════════════════════════════════════════ #
+# ══ Sources and objects ══════════════════════════════════════════════════════ #
 SRC                 = ${SRC_DIR}/checker_bonus.c \
 						${SRC_DIR}/utils_bonus.c \
 						${SRC_DIR}/manage_philos_bonus.c 
@@ -64,7 +64,7 @@ OBJ_INT             = $(patsubst ${INIT_DIR}/%.c, ${OBJ_DIR}/%.o, ${INT})
 OBJ_SIM             = $(patsubst ${SIM_DIR}/%.c, ${OBJ_DIR}/%.o, ${SIM})
 OBJS                = ${OBJ_SRC} ${OBJ_INT} ${OBJ_SIM}
 
-# ══ Reglas ═════════════════════════════════════════════════════════════════ #
+# ══ Rules ═════════════════════════════════════════════════════════════════ #
 all: ${EXEC_PATH}
 
 ${EXEC_PATH}: ${OBJS}
@@ -72,7 +72,6 @@ ${EXEC_PATH}: ${OBJS}
 	@${CC} ${CFLAGS} ${IFLAGS} -o $@ ${OBJS} ${LFLAGS}
 	@echo "$(GREEN) $(EXEC_PATH) all created ✓$(DEF_COLOR)"
 
-# Reglas para generar objetos
 ${OBJ_DIR}/%.o: ${SRC_DIR}/%.c
 	@mkdir -p $(dir $@) # Asegura que el directorio obj exista
 	@${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
@@ -96,5 +95,4 @@ fclean:	clean
 	@echo "$(RED)Executables removed! $(DEF_COLOR)"
 re: fclean all
 
-# Declaración de reglas como phony para evitar conflictos
 .PHONY: all clean fclean re
