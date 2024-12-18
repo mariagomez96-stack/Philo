@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:28:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 13:10:50 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:38:17 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,10 @@ static void ft_create_semaphores(t_data *data)
     sem_unlink("print");
     sem_unlink("forks");
     sem_unlink("stop");
-    sem_unlink("current_eat_lock");
     data->death = sem_open("death", O_CREAT, 0600, 1);
     data->print = sem_open("print", O_CREAT, 0600, 1);
     data->forks = sem_open("forks", O_CREAT, 0600, data->philo_count);
     data->stop = sem_open("stop", O_CREAT, 0600, 1);
-    data->current_eat_lock = sem_open("current_eat_lock", O_CREAT, 0600, 1);
 
 }
 
@@ -62,6 +60,5 @@ void	ft_destroy_all(t_data *simulation, t_philo *philo)
 	sem_close(simulation->print);
 	sem_close(simulation->stop);
 	sem_close(simulation->forks);
-    sem_close(simulation->current_eat_lock);
 	free(philo);
 }
