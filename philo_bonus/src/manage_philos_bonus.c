@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 09:16:43 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:30:49 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_check_death(void *arg)
 		}
 		sem_post(philo->data->death);
 		sem_wait(philo->data->death);
-		if (philo->data->current_eat != -1 && philo->eat_count >= philo->data->max_eat)
+		if (philo->data->current_eat != -1 && philo->eat_count >= philo->data->max_eat + 1)
 		{
 			sem_post(philo->data->stop);
 			break ;
@@ -55,10 +55,12 @@ void	ft_eat(t_philo *philo)
 	philo->last_meal = ft_get_time();
 	philo->next_meal = philo->last_meal + (unsigned int)philo->data->time_to_die;
 	philo->eat_count++;
+	printf("philo->id: %d philo->eat_count: %d\n", philo->id, philo->eat_count);
 	if (philo->data->eat_counter != -1 && philo->eat_count >= philo->data->eat_counter)
 		philo->data->current_eat++;
+	printf("philo->id: %d philo->data->current_eat: %d\n", philo->id, philo->data->current_eat);
 	sem_post(philo->data->death);
-	usleep(philo->data->time_to_sleep * 400);
+	usleep(philo->data->time_to_eat * 1000);
 	sem_post(philo->data->forks);
 	sem_post(philo->data->forks);
 }

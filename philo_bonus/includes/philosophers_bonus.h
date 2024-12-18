@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 08:36:05 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:10:28 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_data
 	sem_t	*print;			// Mutex to print the status of the philos
 	sem_t	*death;			// Mutex to control the death of a philo
 	sem_t   *stop;			// Mutex to control the stop of the simulation
+	sem_t   *current_eat_lock; // Mutex to control the max eats
 	t_philo			*philos;		// Array of philos
 }	t_data;
 
