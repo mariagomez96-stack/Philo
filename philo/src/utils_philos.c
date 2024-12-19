@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 09:12:15 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 09:56:57 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	ft_check_status(char *mesg, t_philo *philo, int lock)
 {
 	char	*timestatus;
 
-	timestatus = ft_itoa(ft_get_time() - philo->data->start);
 	pthread_mutex_lock(&philo->data->print);
+	timestatus = ft_itoa(ft_get_time() - (philo->data->start));
 	if (!philo->data->stopping && !philo->data->max_ate)
 		printf("%s %s %s\n", timestatus, philo->status, mesg);
 	if (lock)
@@ -81,8 +81,8 @@ void	ft_eat(t_philo *philo)
 	ft_check_status(EAT, philo, UNLOCK);
 	philo->last_eat = ft_get_time();
 	pthread_mutex_unlock(&philo->data->mealtime);
-	ft_sleep(philo->data->time_to_eat, philo->data);
 	philo->eat_count++;
+	usleep(philo->data->time_to_eat * 1000);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
 }
