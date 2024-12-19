@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:28:24 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 08:20:36 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 07:09:50 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,12 @@ int	ft_strcmp(const char *s1, const char *s2)
 	int	i;
 
 	i = 0;
-	while (s1[i] && s2[i]) // Mientras no lleguemos al final de ninguna cadena
+	while (s1[i] && s2[i])
 	{
-		if (s1[i] != s2[i]) // Si los caracteres no coinciden
+		if (s1[i] != s2[i])
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
-	// Si las cadenas son de diferente longitud, devolvemos la diferencia
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
