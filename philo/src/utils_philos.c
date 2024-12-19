@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 08:31:49 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 09:12:15 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_sleep(unsigned long time, t_data *data)
 	{
 		if (ft_get_time() - start >= time)
 			break ;
-		usleep(100);
+		usleep(data->philo_count * 3);
 	}
 }
 
@@ -61,7 +61,6 @@ void	ft_dead(t_data *data, t_philo *philo)
 			pthread_mutex_unlock(&data->mealtime);
 			i++;
 		}
-		usleep(100);
 		if (data->stopping)
 			break ;
 		i = 0;
