@@ -6,12 +6,11 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:25:12 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 08:20:46 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:17:41 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
-
 
 int	main(int argc, char **argv)
 {
@@ -27,4 +26,3 @@ int	main(int argc, char **argv)
 	sem_wait(env.stop);
 	ft_destroy_all(&env, philo);
 }
-

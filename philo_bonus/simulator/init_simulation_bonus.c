@@ -6,47 +6,44 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:28:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/18 20:13:03 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:17:31 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers_bonus.h"
 
-static void ft_create_semaphores(t_data *data)
+static void	ft_create_semaphores(t_data *data)
 {
-    sem_unlink("death");
-    sem_unlink("print");
-    sem_unlink("forks");
-    sem_unlink("stop");
-    data->death = sem_open("death", O_CREAT, 0600, 1);
-    data->print = sem_open("print", O_CREAT, 0600, 1);
-    data->forks = sem_open("forks", O_CREAT, 0600, data->philo_count);
-    data->stop = sem_open("stop", O_CREAT, 0600, 1);
-
+	sem_unlink("death");
+	sem_unlink("print");
+	sem_unlink("forks");
+	sem_unlink("stop");
+	data->death = sem_open("death", O_CREAT, 0600, 1);
+	data->print = sem_open("print", O_CREAT, 0600, 1);
+	data->forks = sem_open("forks", O_CREAT, 0600, data->philo_count);
+	data->stop = sem_open("stop", O_CREAT, 0600, 1);
 }
 
-
-void  ft_init_simulation(t_data *data, t_philo *philo)
+void	ft_init_simulation(t_data *data, t_philo *philo)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    data->start = ft_get_time();
-    data->philos = philo;
-    ft_create_semaphores(data);
-    sem_wait(data->stop);
-    while (i < data->philo_count)
-    {
-        philo[i].pid = fork();
-        if (philo[i].pid == 0)
-        {
-            ft_routine(philo + i);
-            exit(0);
-        }
-        i++;
-        usleep(100);
-    }
-
+	i = 0;
+	data->start = ft_get_time();
+	data->philos = philo;
+	ft_create_semaphores(data);
+	sem_wait(data->stop);
+	while (i < data->philo_count)
+	{
+		philo[i].pid = fork();
+		if (philo[i].pid == 0)
+		{
+			ft_routine(philo + i);
+			exit(0);
+		}
+		i++;
+		usleep(100);
+	}
 }
 
 void	ft_destroy_all(t_data *simulation, t_philo *philo)

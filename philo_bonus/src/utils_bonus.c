@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:28:24 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 07:09:50 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:19:25 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_print_message(char *id, t_philo *philo)
 		printf("%u\t%d %s\n", time, philo->id + 1, DEAD);
 	else if (!ft_strcmp(id, DONE))
 		printf("%s\n", DONE);
-	if (ft_strcmp(id, DEAD) != 0) // Solo liberamos el semáforo si no está muerto
+	if (ft_strcmp(id, DEAD) != 0)
 		sem_post(philo->data->print);
 }
 
@@ -94,4 +94,3 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-

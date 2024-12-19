@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 07:34:31 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:19:08 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	*ft_check_death(void *arg)
 			sem_post(philo->data->death);
 			break ;
 		}
-		if (philo->data->current_eat != -1 && philo->eat_count >= philo->data->max_eat + 1)
+		if (philo->data->current_eat != -1 \
+		&& philo->eat_count >= philo->data->max_eat + 1)
 		{
 			sem_post(philo->data->stop);
 			sem_post(philo->data->death);
@@ -47,18 +48,17 @@ void	ft_take_fork(t_philo *philo)
 	ft_print_message(TAKEN_FORK, philo);
 }
 
-
 void	ft_eat(t_philo *philo)
 {
 	ft_take_fork(philo);
 	ft_print_message(EAT, philo);
 	philo->last_meal = ft_get_time();
-	philo->next_meal = philo->last_meal + (unsigned int)philo->data->time_to_die;
+	philo->next_meal = philo->last_meal + \
+	(unsigned int)philo->data->time_to_die;
 	philo->eat_count++;
-	printf("philo->id: %d philo->eat_count: %d\n", philo->id, philo->eat_count);
-	if (philo->data->eat_counter != -1 && philo->eat_count >= philo->data->eat_counter)
+	if (philo->data->eat_counter != -1 \
+	&& philo->eat_count >= philo->data->eat_counter)
 		philo->data->current_eat++;
-	printf("philo->id: %d philo->data->current_eat: %d\n", philo->id, philo->data->current_eat);
 	sem_post(philo->data->death);
 	usleep(philo->data->time_to_eat * 1000);
 	sem_post(philo->data->forks);
@@ -69,7 +69,7 @@ void	ft_sleep(t_philo *philo)
 {
 	ft_print_message(SLEEP, philo);
 	if (philo->id % 2 && philo->data->philo_count > 1)
-		usleep(philo->data->time_to_eat / 50 );
+		usleep(philo->data->time_to_eat / 50);
 	usleep(philo->data->time_to_eat / 100);
 }
 
