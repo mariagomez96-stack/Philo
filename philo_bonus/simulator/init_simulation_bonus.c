@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:28:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 12:34:36 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:46:38 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,10 @@ void	ft_destroy_all(t_data *simulation, t_philo *philo)
 	sem_close(simulation->stop);
 	sem_close(simulation->forks);
 	free(philo);
+}
+
+void	ft_think(t_philo *philo)
+{
+	ft_print_message(THINK, philo);
+	usleep(philo->data->time_to_sleep * 1000);
 }

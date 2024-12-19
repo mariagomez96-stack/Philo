@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 12:40:57 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:47:12 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	ft_sleep(t_philo *philo)
 {
 	ft_print_message(SLEEP, philo);
 	if (philo->id % 2 && philo->data->philo_count > 1)
-		usleep(philo->data->time_to_sleep / 50);
+		usleep(philo->data->time_to_eat / 50);
 	usleep(philo->data->time_to_sleep * 1000);
 }
 
@@ -85,7 +85,7 @@ void	ft_routine(t_philo *philo)
 	{
 		ft_eat(philo);
 		ft_sleep(philo);
-		ft_print_message(THINK, philo);
-		usleep(10);
+		ft_think(philo);
+		usleep(500);
 	}
 }

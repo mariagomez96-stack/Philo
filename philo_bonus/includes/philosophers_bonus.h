@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 12:36:49 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 12:46:27 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void			ft_routine(t_philo *philo);
 void			ft_sleep(t_philo *philo);
 void			ft_eat(t_philo *philo);
 void			ft_take_fork(t_philo *philo);
+void			ft_think(t_philo *philo);
 
 // Simulation
 void			ft_init_simulation(t_data *data, t_philo *philo);
