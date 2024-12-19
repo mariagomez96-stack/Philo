@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:55:03 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/12 11:58:29 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/19 08:17:44 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ int	ft_check_args(t_data *env, int argc, char **argv)
 		i++;
 	}
 	ft_init_env(env, argc, argv);
+	if (env->philo_count > 200 || env->time_to_die < 60 || env->time_to_eat < 60
+		|| env->time_to_sleep < 60)
+		return (printf("Error: Arguments must be greater than 60\n"), 0);
 	if (env->philo_count < 1 || env->time_to_die < 0 || env->time_to_eat < 0
 		|| env->time_to_sleep < 0 || env->eat_count_max < 0)
 		return (printf("Error: Arguments must be greater than 0\n"), 0);
