@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 19:43:56 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:16:18 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	ft_check_status(char *mesg, t_philo *philo, int lock)
 	free(timestatus);
 }
 
+
 /*void	ft_dead(t_data *data, t_philo *philo)
 {
 	int	i;
@@ -192,9 +193,7 @@ void	ft_dead(t_data *data, t_philo *philo)
 	while (1)
 	{
 		i = 0;
-		pthread_mutex_lock(&data->mutex_max_ate);
-		max_ate_flag = data->max_ate;
-		pthread_mutex_unlock(&data->mutex_max_ate);
+		max_ate_flag = ft_ate_flag(data);
 		if (max_ate_flag)
 			break;
 		while (i < data->philo_count)
@@ -202,23 +201,14 @@ void	ft_dead(t_data *data, t_philo *philo)
 			stop_flag = ft_lock_stop_flag(data);
 			if (stop_flag)
 				break;
-			pthread_mutex_lock(&data->mealtime);
-			if ((int)(ft_get_time() - philo[i].last_eat) >= data->time_to_die)
-				ft_check_dead_flag(&philo[i], data);
-			pthread_mutex_unlock(&data->mealtime);
+			ft_dead_util(philo, data, i);
 			i++;
 		}
 		usleep(100);
 		stop_flag = ft_lock_stop_flag(data);
 		if (stop_flag)
 			break;
-		i = 0;
-		while (data->eat_count_max && i < data->philo_count)
-		{
-			ft_check_max_eat(data, philo, i);
-			i++;
-		}
-		ft_lock_mutex_ate(data, i);
+		ft_check_max_eat(data, philo);
 	}
 }
 
@@ -236,6 +226,31 @@ void	ft_dead(t_data *data, t_philo *philo)
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
+}*/
+
+
+/*void	ft_dead(t_data *data, t_philo *philo)
+{
+	int	stop_flag;
+
+	while (1)
+	{
+		// Verificar si todos han comido el número máximo de veces
+		pthread_mutex_lock(&data->mutex_max_ate);
+		if (data->max_ate)
+		{
+			pthread_mutex_unlock(&data->mutex_max_ate);
+			break;
+		}
+		pthread_mutex_unlock(&data->mutex_max_ate);
+
+		// Verificar el estado de cada filósofo
+		stop_flag = ft_check_philos(data, philo);
+		if (stop_flag)
+			break;
+
+		usleep(100); // Reducir consumo de CPU
+	}
 }*/
 
 void	ft_eat(t_philo *philo)
