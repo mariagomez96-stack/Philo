@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 12:13:13 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:17:58 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ void	ft_sleep(unsigned long time, t_data *data)
 	{
 		if (ft_get_time() - start >= time)
 			break ;
-		if (ft_check_death(data->philos)) // Verificar durante el sueño
-			break;
 		usleep(100);
 	}
 }
@@ -31,54 +29,6 @@ void	ft_think(unsigned long time, t_data *data)
 {
 	ft_sleep(time, data);
 }
-
-/*void	ft_check_status(char *mesg, t_philo *philo, int lock)
-{
-	char	*timestatus;
-
-	timestatus = ft_itoa(ft_get_time() - philo->data->start);
-	pthread_mutex_lock(&philo->data->print);
-	if (!philo->data->stopping && !philo->data->max_ate)
-		printf("%s %s %s\n", timestatus, philo->status, mesg);
-	if (lock)
-		pthread_mutex_unlock(&philo->data->print);
-	free(timestatus);
-}*/
-
-/*void	ft_check_status(char *mesg, t_philo *philo, int lock)
-{
-	char	*timestatus;
-	unsigned long	current_time;
-
-	current_time = ft_get_time();
-
-	// Si el mensaje es "is dead", ajusta el tiempo mostrado
-	if (ft_strcmp(mesg, DEAD) == 0)
-	{
-		// Generar un tiempo simulado manualmente
-		unsigned long adjusted_time = philo->data->time_to_die;
-		int first_digit = (adjusted_time / 100) % 10; // Primer dígito
-		printf("Primer digit: %d\n", first_digit);
-		int second_digit = 1;                         // Segundo dígito fijo a 1
-		int third_digit = 0;                          // Tercer dígito fijo a 0
-
-		pthread_mutex_lock(&philo->data->print);
-		printf("%d%d%d %d %s\n", first_digit, second_digit, third_digit, philo->id, mesg);
-		if (lock)
-			pthread_mutex_unlock(&philo->data->print);
-		return;
-	}
-
-	// Para otros mensajes, usa el tiempo real desde el inicio
-	timestatus = ft_itoa(current_time - philo->data->start);
-	pthread_mutex_lock(&philo->data->print);
-	if (!philo->data->stopping && !philo->data->max_ate)
-		printf("%s %s %s\n", timestatus, philo->status, mesg);
-	if (lock)
-		pthread_mutex_unlock(&philo->data->print);
-	free(timestatus);
-}*/
-
 
 void	ft_check_status(char *mesg, t_philo *philo, int lock)
 {
@@ -143,7 +93,6 @@ void	ft_dead(t_data *data, t_philo *philo)
 
 void	ft_eat(t_philo *philo)
 {
-	ft_check_death(philo);
 	pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
 	ft_check_status(TAKEN_FORK, philo, UNLOCK);
 	pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
@@ -154,7 +103,6 @@ void	ft_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->mealtime);
 	ft_sleep(philo->data->time_to_eat, philo->data);
 	philo->eat_count++;
-	ft_check_death(philo);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
 }

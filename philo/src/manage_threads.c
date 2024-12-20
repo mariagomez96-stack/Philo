@@ -6,31 +6,11 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:41:20 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 11:57:59 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:18:24 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-int	ft_check_death(t_philo *philo)
-{
-	unsigned long	current_time;
-
-	// Obtener el tiempo actual
-	current_time = ft_get_time();
-
-	// Verificar si el filósofo ha excedido time_to_die
-	if ((current_time - philo->data->time_to_die) <= (unsigned long)philo->data->time_to_die)
-	{
-		ft_check_status(DEAD, philo, LOCK); // Imprimir la muerte
-		philo->data->stopping = 1; // Detener la simulación
-		return (1); // Ha muerto
-	}
-
-	// Si no ha muerto, retornar 0
-	return (0);
-}
-
 
 static void	*ft_routine(void *args)
 {
@@ -43,7 +23,6 @@ static void	*ft_routine(void *args)
 		ft_sleep(data->time_to_eat / 50, data);
 	while (!data->stopping && !data->max_ate)
 	{
-		ft_check_death(philo);
 		ft_eat(philo);
 		ft_sleep(data->time_to_sleep / 2, data);
 		ft_check_status(SLEEP, philo, UNLOCK);
