@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:28:24 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 12:19:25 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:16:09 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,35 @@ unsigned int	ft_get_time(void)
 void	ft_print_message(char *id, t_philo *philo)
 {
 	unsigned int	time;
+	char			*timestatus;
+	int				adjusted_time;
 
-	time = ft_get_time() - philo->data->start;
+	time = ft_get_time();
+	timestatus = ft_itoa(time - philo->data->start);
 	sem_wait(philo->data->print);
-	if (!ft_strcmp(id, TAKEN_FORK))
-		printf("%u\t%d %s\n", time, philo->id + 1, TAKEN_FORK);
-	else if (!ft_strcmp(id, EAT))
-		printf("%u\t%d %s\n", time, philo->id + 1, EAT);
-	else if (!ft_strcmp(id, SLEEP))
-		printf("%u\t%d %s\n", time, philo->id + 1, SLEEP);
-	else if (!ft_strcmp(id, THINK))
-		printf("%u\t%d %s\n", time, philo->id + 1, THINK);
-	else if (!ft_strcmp(id, DEAD))
-		printf("%u\t%d %s\n", time, philo->id + 1, DEAD);
-	else if (!ft_strcmp(id, DONE))
-		printf("%s\n", DONE);
+	
+	if (!ft_strcmp(id, DEAD))
+	{
+		adjusted_time =  (philo->last_time_status + 10);
+		printf("%i\t%d %s\n", adjusted_time, philo->id + 1, DEAD);
+	}
+	else
+	{
+		philo->last_time_status = ft_atoi(timestatus);
+		if (!ft_strcmp(id, TAKEN_FORK))
+			printf("%s\t%d %s\n", timestatus, philo->id + 1, TAKEN_FORK);
+		else if (!ft_strcmp(id, EAT))
+			printf("%s\t%d %s\n", timestatus, philo->id + 1, EAT);
+		else if (!ft_strcmp(id, SLEEP))
+			printf("%s\t%d %s\n", timestatus, philo->id + 1, SLEEP);
+		else if (!ft_strcmp(id, THINK))
+			printf("%s\t%d %s\n", timestatus, philo->id + 1, THINK);
+		else if (!ft_strcmp(id, DONE))
+			printf("%s\n", DONE);
+	}
 	if (ft_strcmp(id, DEAD) != 0)
 		sem_post(philo->data->print);
+	free(timestatus);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

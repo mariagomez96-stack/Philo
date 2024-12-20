@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:08:36 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 12:15:42 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:01:01 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_philo	*ft_init_philo(t_data *data)
 		philo[i].death = 0;
 		philo[i].data = data;
 		philo[i].eat_count = data->eat_counter;
+		philo[i].last_time_status = 0;
 		i++;
 	}
 	return (philo);

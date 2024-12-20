@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/19 12:46:27 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 12:55:00 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_philo
 	int				death;			// Flag to control if the philo is dead
 	int				eat_count;		// Number of meals that the philo has eaten
 	pid_t			pid;			// ID of the thread (hilo)
+	int				last_time_status;
 	struct s_data	*data;			// Pointer to the data structure
 }	t_philo;
 
@@ -94,6 +95,7 @@ int				ft_atoi(char *nptr);
 int				ft_error(t_data *data, char *message, int ret);
 unsigned int	ft_get_time(void);
 void			ft_print_message(char *id, t_philo *philo);
+char			*ft_itoa(int n);
 
 // Manage philos
 void			*ft_check_death(void *arg);

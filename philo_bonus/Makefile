@@ -52,7 +52,8 @@ LFLAGS              = -lpthread
 # ══ Sources and objects ══════════════════════════════════════════════════════ #
 SRC                 = ${SRC_DIR}/checker_bonus.c \
 						${SRC_DIR}/utils_bonus.c \
-						${SRC_DIR}/manage_philos_bonus.c 
+						${SRC_DIR}/manage_philos_bonus.c \
+						${SRC_DIR}/utils_2_bonus.c 
 
 INT                 = ${INIT_DIR}/init_struct_bonus.c \
 
