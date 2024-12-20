@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 20:40:32 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:42:53 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,13 @@ void	ft_sleep(unsigned long time, t_data *data)
 	start = ft_get_time();
 	while (1)
 	{
-		// Proteger la lectura de `stopping`
 		pthread_mutex_lock(&data->stopping_mutex);
-		stop_flag = data->stopping; // Leer el valor protegido
+		stop_flag = data->stopping;
 		pthread_mutex_unlock(&data->stopping_mutex);
-
-		// Salir del bucle si `stopping` está activado
 		if (stop_flag)
 			break;
-
-		// Salir del bucle si el tiempo ha transcurrido
 		if (ft_get_time() - start >= time)
 			break;
-
-		// Reducir el consumo de CPU
 		usleep(100);
 	}
 }
@@ -42,80 +35,6 @@ void	ft_think(unsigned long time, t_data *data)
 {
 	ft_sleep(time, data);
 }
-
-/*void	ft_check_status(char *mesg, t_philo *philo, int lock)
-{
-	char	*timestatus;
-	unsigned long	current_time;
-	int	adjusted_time;
-
-	current_time = ft_get_time();
-
-	timestatus = ft_itoa(current_time - philo->data->start);
-
-	if (ft_strcmp(mesg, DEAD) == 0)
-	{
-		adjusted_time = philo->last_time_status + 10;
-		pthread_mutex_lock(&philo->data->print);
-		printf("%d %d %s\n", adjusted_time, philo->id, mesg);
-		if (lock)
-			pthread_mutex_unlock(&philo->data->print);
-		free(timestatus);
-		return;
-	}
-	philo->last_time_status = atoi(timestatus);
-	pthread_mutex_lock(&philo->data->print);
-	if (!philo->data->stopping && !philo->data->max_ate)
-		printf("%s %s %s\n", timestatus, philo->status, mesg);
-	if (lock)
-		pthread_mutex_unlock(&philo->data->print);
-	free(timestatus);
-}*/
-
-/*void	ft_check_status(char *mesg, t_philo *philo, int lock)
-{
-	char			*timestatus;
-	unsigned long	current_time;
-	int				adjusted_time;
-	int				stop_flag;
-	int				max_ate_flag;
-
-	current_time = ft_get_time();
-	timestatus = ft_itoa(current_time - philo->data->start);
-
-	if (ft_strcmp(mesg, DEAD) == 0)
-	{
-		adjusted_time = philo->last_time_status + 10;
-
-		pthread_mutex_lock(&philo->data->print);
-		printf("%d %d %s\n", adjusted_time, philo->id, mesg);
-		if (lock)
-			pthread_mutex_unlock(&philo->data->print);
-
-		free(timestatus);
-		return;
-	}
-
-	philo->last_time_status = atoi(timestatus);
-
-	// Proteger la lectura de stopping y max_ate
-	pthread_mutex_lock(&philo->data->stopping_mutex);
-	stop_flag = philo->data->stopping;
-	pthread_mutex_unlock(&philo->data->stopping_mutex);
-
-	pthread_mutex_lock(&philo->data->mutex_max_ate);
-	max_ate_flag = philo->data->max_ate;
-	pthread_mutex_unlock(&philo->data->mutex_max_ate);
-
-	// Imprimir solo si stopping y max_ate no están activados
-	pthread_mutex_lock(&philo->data->print);
-	if (!stop_flag && !max_ate_flag)
-		printf("%s %s %s\n", timestatus, philo->status, mesg);
-	if (lock)
-		pthread_mutex_unlock(&philo->data->print);
-
-	free(timestatus);
-}*/
 
 void	ft_check_status(char *mesg, t_philo *philo, int lock)
 {
@@ -129,9 +48,9 @@ void	ft_check_status(char *mesg, t_philo *philo, int lock)
 	timestatus = ft_itoa(current_time - philo->data->start);
 	if (ft_strcmp(mesg, DEAD) == 0)
 		return (ft_print_dead(philo, mesg), free(timestatus));
-	pthread_mutex_lock(&philo->data->print); //Nuevo por mutex
+	pthread_mutex_lock(&philo->data->print); 
 	philo->last_time_status = atoi(timestatus);
-	pthread_mutex_unlock(&philo->data->print); // Nuevo por mutex
+	pthread_mutex_unlock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->stopping_mutex);
 	stop_flag = philo->data->stopping;
 	pthread_mutex_unlock(&philo->data->stopping_mutex);
