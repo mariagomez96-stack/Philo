@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 19:16:27 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 19:43:56 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ void	ft_check_status(char *mesg, t_philo *philo, int lock)
 	free(timestatus);
 }
 
-
 /*void	ft_dead(t_data *data, t_philo *philo)
 {
 	int	i;
@@ -184,74 +183,6 @@ void	ft_check_status(char *mesg, t_philo *philo, int lock)
 	}
 }*/
 
-/*void	ft_dead(t_data *data, t_philo *philo)
-{
-	int	i;
-	int	stop_flag;
-	int max_ate_flag;
-
-	while (1)
-	{
-		i = 0;
-		max_ate_flag = data->max_ate;
-		// Verificar `max_ate` protegido
-		pthread_mutex_lock(&data->mutex_max_ate);
-		max_ate_flag = data->max_ate;
-		pthread_mutex_unlock(&data->mutex_max_ate);
-		if (max_ate_flag)
-		{
-			//pthread_mutex_unlock(&data->mutex_max_ate);
-			break; // Salir del bucle si max_ate está activado
-		}
-		//pthread_mutex_unlock(&data->mutex_max_ate);
-
-		while (i < data->philo_count)
-		{
-			// Proteger `stopping`
-			pthread_mutex_lock(&data->stopping_mutex);
-			stop_flag = data->stopping;
-			pthread_mutex_unlock(&data->stopping_mutex);
-
-			// Si el programa debe detenerse, salir del bucle
-			if (stop_flag)
-				break;
-
-			pthread_mutex_lock(&data->mealtime);
-			if ((int)(ft_get_time() - philo[i].last_eat) >= data->time_to_die)
-			{
-				ft_check_status(DEAD, &philo[i], LOCK);
-
-				// Actualizar `stopping` protegido
-				pthread_mutex_lock(&data->stopping_mutex);
-				data->stopping = 1;
-				pthread_mutex_unlock(&data->stopping_mutex);
-			}
-			pthread_mutex_unlock(&data->mealtime);
-
-			i++;
-		}
-
-		// Proteger acceso y actualización de `max_ate`
-		pthread_mutex_lock(&data->stopping_mutex);
-		stop_flag = data->stopping;
-		pthread_mutex_unlock(&data->stopping_mutex);
-
-		if (stop_flag)
-			break;
-
-		// Verificar y actualizar `max_ate`
-		i = 0;
-		while (data->eat_count_max && i < data->philo_count
-			&& philo[i].eat_count >= data->eat_count_max)
-			i++;
-
-		pthread_mutex_lock(&data->mutex_max_ate);
-		data->max_ate = (i == data->philo_count);
-		pthread_mutex_unlock(&data->mutex_max_ate);
-	}
-}*/
-
-
 void	ft_dead(t_data *data, t_philo *philo)
 {
 	int	i;
@@ -268,43 +199,26 @@ void	ft_dead(t_data *data, t_philo *philo)
 			break;
 		while (i < data->philo_count)
 		{
-			pthread_mutex_lock(&data->stopping_mutex);
-			stop_flag = data->stopping;
-			pthread_mutex_unlock(&data->stopping_mutex);
+			stop_flag = ft_lock_stop_flag(data);
 			if (stop_flag)
 				break;
 			pthread_mutex_lock(&data->mealtime);
 			if ((int)(ft_get_time() - philo[i].last_eat) >= data->time_to_die)
-			{
-				ft_check_status(DEAD, &philo[i], LOCK);
-				pthread_mutex_lock(&data->stopping_mutex);
-				data->stopping = 1;
-				pthread_mutex_unlock(&data->stopping_mutex);
-			}
+				ft_check_dead_flag(&philo[i], data);
 			pthread_mutex_unlock(&data->mealtime);
 			i++;
 		}
 		usleep(100);
-		pthread_mutex_lock(&data->stopping_mutex);
-		stop_flag = data->stopping;
-		pthread_mutex_unlock(&data->stopping_mutex);
+		stop_flag = ft_lock_stop_flag(data);
 		if (stop_flag)
 			break;
 		i = 0;
 		while (data->eat_count_max && i < data->philo_count)
 		{
-			pthread_mutex_lock(&philo[i].eat_count_mutex);
-			if (philo[i].eat_count < data->eat_count_max)
-			{
-				pthread_mutex_unlock(&philo[i].eat_count_mutex);
-				break;
-			}
-			pthread_mutex_unlock(&philo[i].eat_count_mutex);
+			ft_check_max_eat(data, philo, i);
 			i++;
 		}
-		pthread_mutex_lock(&data->mutex_max_ate);
-		data->max_ate = (i == data->philo_count);
-		pthread_mutex_unlock(&data->mutex_max_ate);
+		ft_lock_mutex_ate(data, i);
 	}
 }
 
@@ -324,64 +238,6 @@ void	ft_dead(t_data *data, t_philo *philo)
 	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
 }*/
 
-/*void	ft_eat(t_philo *philo)
-{
-	// Adquirir mutexes de forks en el mismo orden para evitar ciclos
-	if (philo->right_fork < philo->left_fork)
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-	}
-
-	ft_check_status(TAKEN_FORK, philo, UNLOCK);
-	ft_check_status(TAKEN_FORK, philo, UNLOCK);
-
-	pthread_mutex_lock(&philo->data->mealtime);
-	ft_check_status(EAT, philo, UNLOCK);
-	philo->last_eat = ft_get_time();
-	pthread_mutex_unlock(&philo->data->mealtime);
-
-	ft_sleep(philo->data->time_to_eat, philo->data);
-	philo->eat_count++;
-
-	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-}*/
-
-/*void	ft_eat(t_philo *philo)
-{
-	// Adquirir mutexes de forks en el mismo orden para evitar ciclos
-	if (philo->right_fork < philo->left_fork)
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
-	}
-
-	ft_check_status(TAKEN_FORK, philo, UNLOCK);
-	ft_check_status(TAKEN_FORK, philo, UNLOCK);
-
-	pthread_mutex_lock(&philo->data->mealtime); // Proteger la escritura
-	ft_check_status(EAT, philo, UNLOCK);
-	philo->last_eat = ft_get_time(); // Escritura protegida
-	pthread_mutex_unlock(&philo->data->mealtime);
-
-	ft_sleep(philo->data->time_to_eat, philo->data);
-	philo->eat_count++;
-
-	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-}*/
-
 void	ft_eat(t_philo *philo)
 {
 	// Adquirir mutexes de forks
@@ -395,7 +251,6 @@ void	ft_eat(t_philo *philo)
 		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
 		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
 	}
-
 	ft_check_status(TAKEN_FORK, philo, UNLOCK);
 	ft_check_status(TAKEN_FORK, philo, UNLOCK);
 	pthread_mutex_lock(&philo->data->mealtime);
