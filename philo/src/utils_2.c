@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:05:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 18:51:03 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:38:30 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,42 @@ void	ft_free_philo(t_data *data)
 	free(data->philos);
 	free(data->forks);
 }
+
+int	ft_atoi(const char *nptr)
+{
+	int		i;
+	int		neg;
+	long	value;
+
+	i = 0;
+	value = 0;
+	neg = 0;
+	while ((nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13)))
+		i++;
+	if (nptr[i] == '-')
+		neg = 1;
+	if (nptr[i] == '-' || nptr[i] == '+')
+		i++;
+	while (nptr[i] != '\0' && nptr[i] >= 48 && nptr[i] <= 57)
+	{
+		if (value >= 922337203685477580 || (value == 922337203685477580
+				&& ((!neg && nptr[i] - '0' > 7) || (neg && nptr[i] - '0' > 8))))
+			return (-1 * !neg);
+		else
+			value = (value * 10) + nptr[i++] - '0';
+	}
+	if (neg)
+		value = -value;
+	return (value);
+}
+
+void ft_print_dead(t_philo *philo, char *mesg)
+{
+	int	adjusted_time;
+
+	pthread_mutex_lock(&philo->data->print);
+	adjusted_time = philo->last_time_status + 10;
+	printf("%d %d %s\n", adjusted_time, philo->id, mesg);
+	pthread_mutex_unlock(&philo->data->print);
+}
+

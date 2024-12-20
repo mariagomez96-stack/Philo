@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 20:15:48 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:39:23 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void			ft_lock_mutex_ate(t_data *data, int i);
 void			ft_check_max_eat(t_data *data, t_philo *philo);
 void			ft_dead_util(t_philo *philo, t_data *data, int i);
 int				ft_ate_flag(t_data *data);
+void			ft_print_dead(t_philo *philo, char *mesg);
+
 
 // THREATS
 int				ft_thread(t_data *data);

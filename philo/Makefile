@@ -54,7 +54,7 @@ SRC                 = ${SRC_DIR}/checker.c \
                       ${SRC_DIR}/utils_philos.c \
                       ${SRC_DIR}/utils.c \
                       ${SRC_DIR}/utils_2.c \
-					  ${SRC_DIR}/utils_threads.c
+					  ${SRC_DIR}/utils_dead.c
 
 INT                 = ${INIT_DIR}/philo_env_structs.c \
                       ${INIT_DIR}/sim_init.c

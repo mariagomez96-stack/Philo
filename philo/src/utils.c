@@ -6,39 +6,11 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:58:10 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 11:57:34 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 20:41:15 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
-
-int	ft_atoi(const char *nptr)
-{
-	int		i;
-	int		neg;
-	long	value;
-
-	i = 0;
-	value = 0;
-	neg = 0;
-	while ((nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13)))
-		i++;
-	if (nptr[i] == '-')
-		neg = 1;
-	if (nptr[i] == '-' || nptr[i] == '+')
-		i++;
-	while (nptr[i] != '\0' && nptr[i] >= 48 && nptr[i] <= 57)
-	{
-		if (value >= 922337203685477580 || (value == 922337203685477580
-				&& ((!neg && nptr[i] - '0' > 7) || (neg && nptr[i] - '0' > 8))))
-			return (-1 * !neg);
-		else
-			value = (value * 10) + nptr[i++] - '0';
-	}
-	if (neg)
-		value = -value;
-	return (value);
-}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
