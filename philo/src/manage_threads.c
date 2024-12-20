@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:41:20 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 18:28:33 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 19:08:26 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,24 @@ static void	*ft_routine(void *args)
 
 	philo = (t_philo *)args;
 	data = philo->data;
-
-	// Para que los filósofos pares no compitan inicialmente
 	if (philo->id % 2 && data->philo_count > 1)
 		ft_sleep(data->time_to_eat / 50, data);
-
-	while (1) // Bucle infinito controlado por el flag
+	while (1)
 	{
-		// Proteger la lectura de `stopping`
-		pthread_mutex_lock(&data->stopping_mutex);
-		stop_flag = data->stopping; // Leer el valor protegido
-		pthread_mutex_unlock(&data->stopping_mutex);
-
+		stop_flag = ft_lock_stop_flag(data);
 		pthread_mutex_lock(&data->mutex_max_ate);
 		max_ate_flag = data->max_ate;
 		pthread_mutex_unlock(&data->mutex_max_ate);
-
-		// Salir del bucle si el programa debe detenerse
 		if (stop_flag || max_ate_flag)
 			break;
-
-		// Rutina del filósofo
 		ft_eat(philo);
 		ft_sleep(data->time_to_sleep / 2, data);
 		ft_check_status(SLEEP, philo, UNLOCK);
 		ft_think(data->time_to_think / 2, data);
 		ft_check_status(THINK, philo, UNLOCK);
 	}
-
 	return (NULL);
 }
-
 
 static void	ft_exit(t_data *data)
 {
