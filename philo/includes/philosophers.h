@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 13:43:11 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:47:33 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philo
 	char			*status;		// ID char
 	int		        last_time_status;
 	pthread_t		thread_id;		// ID of the thread (hilo)
+	pthread_mutex_t eat_count_mutex;
 	struct s_data	*data;			// Pointer to the data structure
 }	t_philo;
 

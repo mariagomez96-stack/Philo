@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:05:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 13:43:58 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:51:03 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_destroy_mutex(t_data *data)
 	while (i < data->philo_count)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].eat_count_mutex);
 		i++;
 	}
 	pthread_mutex_destroy(&data->mealtime);

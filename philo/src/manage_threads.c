@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:41:20 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 14:12:01 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:28:33 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ int	ft_thread(t_data *data)
 	if (!ft_create_thread(data))
 		return (0);
 	ft_dead(data, data->philos);
-	if (pthread_mutex_trylock(&data->print) == 0) 
-		pthread_mutex_unlock(&data->print);
+	pthread_mutex_lock(&data->print);
+	pthread_mutex_unlock(&data->print);
 	ft_exit(data);
 	return (1);
 }

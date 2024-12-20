@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:11:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 13:43:37 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 18:47:36 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static int	ft_init_fork(t_data *env)
 	while (i < env->philo_count)
 	{
 		if (pthread_mutex_init(&(env->forks[i]), NULL))
+			return (1);
+		if (pthread_mutex_init(&(env->philos[i].eat_count_mutex), NULL))
 			return (1);
 		i++;
 	}
