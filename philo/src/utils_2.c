@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:05:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 11:41:44 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:43:58 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_destroy_mutex(t_data *data)
 	}
 	pthread_mutex_destroy(&data->mealtime);
 	pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->stopping_mutex);
+	pthread_mutex_destroy(&data->mutex_max_ate);
 }
 
 void	ft_free_philo(t_data *data)

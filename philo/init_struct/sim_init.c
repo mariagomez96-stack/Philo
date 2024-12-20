@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:11:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/13 08:57:07 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:43:37 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ static int	ft_init_mealtime_and_print_mutex(t_data *env)
 	if (pthread_mutex_init(&(env->mealtime), NULL))
 		return (1);
 	if (pthread_mutex_init(&(env->print), NULL))
+		return (1);
+	if (pthread_mutex_init(&(env->stopping_mutex), NULL))
+		return (1);
+	if (pthread_mutex_init(&(env->mutex_max_ate), NULL))
 		return (1);
 	return (0);
 }

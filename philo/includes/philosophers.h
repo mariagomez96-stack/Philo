@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 12:05:25 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/20 13:43:11 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_data
 	pthread_mutex_t	*forks;			// Array of mutexes to represent the forks
 	pthread_mutex_t	print;			// Mutex to print the status of the philos
 	pthread_mutex_t	mealtime;		// Mutex to control the time of the meals
+	pthread_mutex_t stopping_mutex;
+	pthread_mutex_t mutex_max_ate;
 	t_philo			*philos;		// Array of philos
 }	t_data;
 
