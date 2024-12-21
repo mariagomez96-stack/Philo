@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:25:12 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/21 10:18:52 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:53:02 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (printf("Error: Wrong number of arguments\n"), 1);
 	if (!ft_check_args(&env, argc, argv))
-		return (printf("Please, insert right arguments\n\n"), 1);
+		return (1);
 	philo = ft_init_philo(&env);
 	ft_init_simulation(&env, philo);
 	sem_wait(env.stop);

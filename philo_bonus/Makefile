@@ -45,9 +45,9 @@ INCLUDES_DIR        = ./includes
 EXEC_PATH           = philo_bonus
 
 # ══ Flags ══════════════════════════════════════════════════════════════════ #
-CFLAGS              = -Wall -Werror -Wextra 
+CFLAGS              = -Wall -Werror -Wextra -g -fsanitize=thread
 IFLAGS              = -I${INCLUDES_DIR}
-LFLAGS              = -lpthread 
+LFLAGS              = -lpthread -fsanitize=thread
 
 # ══ Sources and objects ══════════════════════════════════════════════════════ #
 SRC                 = ${SRC_DIR}/checker_bonus.c \

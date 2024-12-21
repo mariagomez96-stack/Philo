@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/21 10:39:42 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:49:28 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ void	ft_eat(t_philo *philo)
 {
 	ft_take_fork(philo);
 	ft_print_message(EAT, philo);
+	sem_wait(philo->data->death);
 	philo->last_meal = ft_get_time();
 	philo->next_meal = philo->last_meal + \
 	(unsigned int)philo->data->time_to_die;
+	sem_post(philo->data->death);
 	philo->eat_count++;
 	if (philo->data->eat_counter != -1 \
 	&& philo->eat_count >= philo->data->eat_counter)
