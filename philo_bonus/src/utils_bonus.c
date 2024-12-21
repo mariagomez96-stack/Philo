@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 10:28:24 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 13:16:09 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:37:55 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ unsigned int	ft_get_time(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * (unsigned long)1000) + (time.tv_usec / 1000));
+	return ((time.tv_sec * (unsigned int)1000) + (time.tv_usec / 1000));
 }
 
 void	ft_print_message(char *id, t_philo *philo)

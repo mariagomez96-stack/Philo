@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:43:52 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 10:14:33 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/21 10:39:42 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_check_death(void *arg)
 	while (1)
 	{
 		sem_wait(philo->data->death);
-		if (philo->next_meal <= ft_get_time())
+		if (philo->next_meal < ft_get_time())
 		{
 			ft_print_message(DEAD, philo);
 			sem_post(philo->data->stop);
