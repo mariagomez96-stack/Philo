@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:28:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/21 10:25:29 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:05:56 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ void	ft_destroy_all(t_data *simulation, t_philo *philo)
 }
 
 void	ft_think(t_philo *philo)
-{	
+{
 	ft_print_message(THINK, philo);
 }
