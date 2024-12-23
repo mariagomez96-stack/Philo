@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:58:10 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 20:41:15 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:46:40 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_strcmp(const char *s1, const char *s2)
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
-
 
 static int	ft_strlen(char *str)
 {

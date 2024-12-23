@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 09:08:19 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 12:06:06 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/23 14:01:20 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,24 @@ void	ft_init_env(t_data *env, int argc, char *argv[])
 	env->time_to_eat = ft_atoi(argv[3]);
 	env->time_to_sleep = ft_atoi(argv[4]);
 	env->time_to_think = ft_atoi(argv[4]);
+	env->last_time_status = 0;
 	if (argc == 6)
 		env->eat_count_max = ft_atoi(argv[5]);
 	else
 		env->eat_count_max = 0;
+}
+
+static int	ft_init_single_philo(t_data *env, int i)
+{
+	env->philos[i].id = i + 1;
+	env->philos[i].eat_count = 0;
+	env->philos[i].status = ft_itoa(i + 1);
+	if (!env->philos[i].status)
+		return (1);
+	env->philos[i].right_fork = i;
+	env->philos[i].left_fork = (i + 1) % env->philo_count;
+	env->philos[i].data = env;
+	return (0);
 }
 
 int	ft_init_philos(t_data *env)
@@ -32,15 +46,7 @@ int	ft_init_philos(t_data *env)
 	i = 0;
 	while (i < env->philo_count)
 	{
-		env->philos[i].id = i + 1;
-		env->philos[i].eat_count = 0;
-		env->philos[i].status = ft_itoa(i + 1);
-		if (!env->philos[i].status)
-			break ;
-		env->philos[i].last_time_status = 0;
-		env->philos[i].right_fork = i;
-		env->philos[i].left_fork = (i + 1) % env->philo_count;
-		env->philos[i].data = env;
+		ft_init_single_philo(env, i);
 		i++;
 	}
 	if (i != env->philo_count)

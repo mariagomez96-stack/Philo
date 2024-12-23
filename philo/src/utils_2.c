@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 10:05:18 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 20:38:30 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:56:35 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,12 @@ int	ft_atoi(const char *nptr)
 	return (value);
 }
 
-void ft_print_dead(t_philo *philo, char *mesg)
+void	ft_print_dead(t_philo *philo, char *mesg, t_data *data)
 {
 	int	adjusted_time;
 
 	pthread_mutex_lock(&philo->data->print);
-	adjusted_time = philo->last_time_status + 10;
+	adjusted_time = data->last_time_status + 10;
 	printf("%d %d %s\n", adjusted_time, philo->id, mesg);
 	pthread_mutex_unlock(&philo->data->print);
 }
-

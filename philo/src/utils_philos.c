@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/20 20:42:53 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:59:56 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	ft_sleep(unsigned long time, t_data *data)
 		stop_flag = data->stopping;
 		pthread_mutex_unlock(&data->stopping_mutex);
 		if (stop_flag)
-			break;
+			break ;
 		if (ft_get_time() - start >= time)
-			break;
+			break ;
 		usleep(100);
 	}
 }
@@ -36,20 +36,19 @@ void	ft_think(unsigned long time, t_data *data)
 	ft_sleep(time, data);
 }
 
-void	ft_check_status(char *mesg, t_philo *philo, int lock)
+void	ft_check_status(char *mesg, t_philo *philo, int lock, t_data *data)
 {
 	char			*timestatus;
 	unsigned long	current_time;
 	int				stop_flag;
 	int				max_ate_flag;
 
-
 	current_time = ft_get_time();
 	timestatus = ft_itoa(current_time - philo->data->start);
 	if (ft_strcmp(mesg, DEAD) == 0)
-		return (ft_print_dead(philo, mesg), free(timestatus));
-	pthread_mutex_lock(&philo->data->print); 
-	philo->last_time_status = atoi(timestatus);
+		return (ft_print_dead(philo, mesg, data));
+	pthread_mutex_lock(&philo->data->print);
+	data->last_time_status = atoi(timestatus);
 	pthread_mutex_unlock(&philo->data->print);
 	pthread_mutex_lock(&philo->data->stopping_mutex);
 	stop_flag = philo->data->stopping;
@@ -155,10 +154,10 @@ void	ft_eat(t_philo *philo)
 		pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
 		pthread_mutex_lock(&philo->data->forks[philo->right_fork]);
 	}
-	ft_check_status(TAKEN_FORK, philo, UNLOCK);
-	ft_check_status(TAKEN_FORK, philo, UNLOCK);
+	ft_check_status(TAKEN_FORK, philo, UNLOCK, philo->data);
+	ft_check_status(TAKEN_FORK, philo, UNLOCK, philo->data);
 	pthread_mutex_lock(&philo->data->mealtime);
-	ft_check_status(EAT, philo, UNLOCK);
+	ft_check_status(EAT, philo, UNLOCK, philo->data);
 	philo->last_eat = ft_get_time();
 	pthread_mutex_unlock(&philo->data->mealtime);
 	pthread_mutex_unlock(&philo->data->forks[philo->right_fork]);
@@ -168,7 +167,3 @@ void	ft_eat(t_philo *philo)
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->eat_count_mutex);
 }
-
-
-
-

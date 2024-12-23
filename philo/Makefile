@@ -44,9 +44,9 @@ OBJ_DIR             = ./obj
 INCLUDES_DIR        = ./includes
 EXEC_PATH           = philo
 # ══ Flags ══════════════════════════════════════════════════════════════════ #
-CFLAGS              = -Wall -Werror -Wextra -g -fsanitize=thread
+CFLAGS              = -Wall -Werror -Wextra
 IFLAGS              = -I${INCLUDES_DIR}
-LFLAGS              = -lpthread -fsanitize=thread
+LFLAGS              = -lpthread
 
 # ══ Sources and objects ══════════════════════════════════════════════════════ #
 SRC                 = ${SRC_DIR}/checker.c \
