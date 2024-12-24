@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:41:20 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/23 13:59:36 by marigome         ###   ########.fr       */
+/*   Updated: 2024/12/24 11:30:35 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	*ft_routine(void *args)
 	philo = (t_philo *)args;
 	data = philo->data;
 	if (philo->id % 2 && data->philo_count > 1)
-		ft_sleep(data->time_to_eat / 50, data);
+		ft_sleep(data->time_to_eat / 2, data);
 	while (1)
 	{
 		stop_flag = ft_lock_stop_flag(data);
@@ -34,7 +34,6 @@ static void	*ft_routine(void *args)
 		ft_eat(philo);
 		ft_sleep(data->time_to_sleep, data);
 		ft_check_status(SLEEP, philo, UNLOCK, data);
-		ft_think(data->time_to_think, data);
 		ft_check_status(THINK, philo, UNLOCK, data);
 	}
 	return (NULL);
