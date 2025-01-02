@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 11:50:46 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/24 11:31:05 by marigome         ###   ########.fr       */
+/*   Updated: 2025/01/02 09:14:09 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,63 +62,6 @@ void	ft_check_status(char *mesg, t_philo *philo, int lock, t_data *data)
 	if (lock)
 		pthread_mutex_unlock(&philo->data->print);
 }
-
-/*void	ft_dead(t_data *data, t_philo *philo)
-{
-	int	i;
-
-	while (!data->max_ate)
-	{
-		i = 0;
-		while (i < data->philo_count && !data->stopping)
-		{
-			pthread_mutex_lock(&data->mealtime);
-			if ((int)(ft_get_time() - philo[i].last_eat) >= data->time_to_die)
-			{
-				ft_check_status(DEAD, &philo[i], LOCK);
-				data->stopping = 1;
-			}
-			pthread_mutex_unlock(&data->mealtime);
-			i++;
-		}
-		usleep(100);
-		if (data->stopping)
-			break ;
-		i = 0;
-		while (data->eat_count_max && i < data->philo_count
-			&& philo[i].eat_count >= data->eat_count_max)
-			i++;
-		data->max_ate = (i == data->philo_count);
-	}
-}*/
-
-/*void	ft_dead(t_data *data, t_philo *philo)
-{
-	int	i;
-	int	stop_flag;
-	int	max_ate_flag;
-
-	while (1)
-	{
-		i = 0;
-		max_ate_flag = ft_ate_flag(data);
-		if (max_ate_flag)
-			break;
-		while (i < data->philo_count)
-		{
-			stop_flag = ft_lock_stop_flag(data);
-			if (stop_flag)
-				break;
-			ft_dead_util(philo, data, i);
-			i++;
-		}
-		usleep(100);
-		stop_flag = ft_lock_stop_flag(data);
-		if (stop_flag)
-			break;
-		ft_check_max_eat(data, philo);
-	}
-}*/
 
 void	ft_dead(t_data *data, t_philo *philo)
 {

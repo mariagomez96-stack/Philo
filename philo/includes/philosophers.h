@@ -6,7 +6,7 @@
 /*   By: marigome <marigome@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 08:59:15 by marigome          #+#    #+#             */
-/*   Updated: 2024/12/23 13:59:15 by marigome         ###   ########.fr       */
+/*   Updated: 2025/01/02 09:19:37 by marigome         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ int				ft_check_args(t_data *env, int argc, char **argv);
 void			ft_sleep(unsigned long time, t_data *data);
 unsigned long	ft_get_time(void);
 void			ft_dead(t_data *data, t_philo *philo);
-void			ft_check_status(char *mesg, t_philo *philo, int lock, t_data *data);
+void			ft_check_status(char *mesg, t_philo *philo, \
+int lock, t_data *data);
 void			ft_eat(t_philo *philo);
 void			ft_think(unsigned long time, t_data *data);
 
